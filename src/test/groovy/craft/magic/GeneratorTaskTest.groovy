@@ -9,7 +9,7 @@ class GeneratorTaskTest {
     @Test
     public void canAddTaskToProject() {
         Project project = ProjectBuilder.builder().build()
-        def task = project.task('generator', type: GeneratorTask)
+        def task = project.task('xYz', type: GeneratorTask)
         assertTrue(task instanceof GeneratorTask)
     }
 }

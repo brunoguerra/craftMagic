@@ -1,0 +1,16 @@
+{
+	"methods":[{
+		"name": "executeQuery1",
+
+		"type": "com.test.Query",
+
+		"params": [{
+			"type": "Map",
+			"name": "param"
+		}],
+
+		"body": [{
+			"plain": "return executeDefaultQuery(1, (HashMap) param);"
+		}]
+	}]
+}

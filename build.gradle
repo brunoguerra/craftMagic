@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    compile 'com.sun.codemodel:codemodel:2.6'
+
     testCompile 'junit:junit:4.12'
 }
 
@@ -26,3 +28,10 @@ uploadArchives {
         }
     }
 }
+
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/classes/test"
+}
+
+processTestResources.dependsOn copyTestResources

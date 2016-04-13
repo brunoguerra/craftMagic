@@ -11,6 +11,14 @@ class GeneratorPluginTest {
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'craft.magic.craftMagic'
 
-        assertTrue(project.tasks.generator instanceof GeneratorTask)
+        assertTrue(project.tasks.genClasses instanceof GeneratorTask)
+    }
+
+    @Test
+    public void generatorPluginAddsGeneratorExtensionToProject() {
+        Project project = ProjectBuilder.builder().build()
+        project.pluginManager.apply 'craft.magic.craftMagic'
+
+        assertTrue(project.craftMagic.jsons instanceof ArrayList)
     }
 }
