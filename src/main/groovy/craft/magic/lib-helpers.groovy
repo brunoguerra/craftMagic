@@ -17,7 +17,7 @@ import com.sun.codemodel.JFormatter
 class JCodeModelUtils {
 
 	static String toString(def obj) {
-
+		obj.toString()
 	}
 
 	public static String toString (JExpression aExpression)

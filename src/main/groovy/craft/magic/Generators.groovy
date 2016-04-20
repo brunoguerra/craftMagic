@@ -8,6 +8,7 @@ import com.sun.codemodel.JExpr
 import com.sun.codemodel.JDefinedClass
 
 import static com.sun.codemodel.JMod.*
+import static craft.magic.Utils.*
 
 class JavaClassGenerator {
 	JCodeModel cm = new JCodeModel()
@@ -32,8 +33,8 @@ class JavaClassGenerator {
         def obj = new GeneratedObject(className(fileName))
         obj.json = new JsonSlurper().parseText(content)
         obj.cls = cm._class(PUBLIC | FINAL, obj.fqcn(), ClassType.CLASS)
-
         new GenerateBody(obj)
+        println obj.uri()
         obj
     }
 
@@ -42,12 +43,6 @@ class JavaClassGenerator {
         def ext = pkg.pop()
         def name = pkg.pop()
         return [pkg: pkg.join('.'), name: name]
-    }
-
-    def ensurePath(File file) {
-        if (!file.isDirectory() && !file.mkdirs()) {
-            throw new IOException('Could not create directory: ' + file)
-        }
     }
 
     // Scoped classes
@@ -63,11 +58,24 @@ class GeneratedObject {
         cls
 
     def fqcn() {
-        pkg + name
+        pkg + '.' + name
     }
 
     def add(GenerateMethod method) {
         methods[method.name] = method
+    }
+
+    def uri() {
+        println 'URI Called:'
+        pkg.split('\\.').join('/')  
+    }
+
+    def path() {
+        uri() + '/' + name
+    }
+
+    String toString() {
+        JCodeModelUtils.toString(this.cls)
     }
 }
 
@@ -83,6 +91,7 @@ class GenerateMethod {
     def cls, 
         spec, 
         name, 
+        returnType,
         method
 
     def parseType = { cm, str -> cm.parseType(str) }
@@ -95,7 +104,8 @@ class GenerateMethod {
 
         whatIs = parseType.curry(cls.owner())
 
-        method = cls.method(PUBLIC, whatIs(spec.type), spec.name)
+        returnType = whatIs(spec.type)
+        method = cls.method(PUBLIC, returnType, spec.name)
         
         theParams()
         theBody()
@@ -109,7 +119,14 @@ class GenerateMethod {
 
     def theBody() {
         def b = method.body()
-        spec.body.each { b.directStatement(it.plain) }
+        spec.body.each { 
+            b.directStatement(it.plain)
+        }
     }
+
+    def sign() {
+        spec.type + ' ' + name
+    }
+
 }
 

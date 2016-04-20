@@ -7,7 +7,7 @@ import static org.junit.Assert.*
 
 class GeneratorPluginTest {
     @Test
-    public void generatorPluginAddsGeneratorTaskToProject() {
+    public void pluginAddsGeneratorTaskToProject() {
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'craft.magic.craftMagic'
 
@@ -15,10 +15,23 @@ class GeneratorPluginTest {
     }
 
     @Test
-    public void generatorPluginAddsGeneratorExtensionToProject() {
+    public void pluginAddsGeneratorExtensionToProject() {
         Project project = ProjectBuilder.builder().build()
         project.pluginManager.apply 'craft.magic.craftMagic'
 
         assertTrue(project.craftMagic.jsons instanceof ArrayList)
     }
+
+    @Test
+    public void pluginAddsInputPathWithJsonFiles() {
+        Project project = ProjectBuilder.builder().build()
+        project.pluginManager.apply 'craft.magic.craftMagic'
+
+        project.craftMagic.from('.')
+
+        assertTrue(project.craftMagic.jsons instanceof ArrayList)
+        assertFalse(project.craftMagic.jsons?.empty)
+    }
+
+
 }

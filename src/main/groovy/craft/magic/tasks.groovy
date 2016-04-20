@@ -23,7 +23,5 @@ class GeneratorTask extends DefaultTask {
                         .save(outputDir())
 
         println "Generated ${inputFiles().size}"
-    }
-
-    
+    }   
 }
