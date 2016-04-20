@@ -49,8 +49,22 @@ public class ClassOne {
 Configuration
 ---
 ````groovy
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.craft.magic:craftMagic:0.2-SNAPSHOT"
+  }
+}
+
+apply plugin: "craft.magic.craftMagic"
+
 craftMagic {
 	from './'
+	to './src/'
 }
 ````
 --
